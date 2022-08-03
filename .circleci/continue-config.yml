@@ -1,0 +1,38 @@
+version: 2.1
+
+parameters:
+  build-a:
+    type: boolean
+    default: false
+
+  build-b:
+    type: boolean
+    default: false
+
+workflows:
+  build-a-workflow:
+    when: << pipeline.parameters.build-a >>
+    jobs:
+      - build-a-job
+
+  build-b-workflow:
+    when: << pipeline.parameters.build-b >>
+    jobs:
+      - build-b-job
+
+jobs:
+  build-a-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          command: "echo build-a !"
+
+  build-b-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          command: "echo build-b !"
